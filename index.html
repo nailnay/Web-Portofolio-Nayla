@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portofolio - Nayla Febryani Koswara</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg: #1e1e2f;
+      --accent: #6c63ff;
+      --text: #ffffff;
+      --card-bg: #24243a;
+      --card-hover: #2b2b45;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Loading Screen */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--bg);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+
+    .loading-screen.hide {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .loader {
+      width: 50px;
+      height: 50px;
+      border: 3px solid rgba(108, 99, 255, 0.3);
+      border-top: 3px solid var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    a:hover {
+      opacity: 0.8;
+    }
+
+    h1, h2, h3 {
+      color: var(--accent);
+    }
+
+    /* ======== NAVBAR ======== */
+    header {
+      position: fixed;
+      width: 100%;
+      background: rgba(30, 30, 47, 0.8);
+      backdrop-filter: blur(10px);
+      top: 0;
+      left: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s ease;
+      animation: slideDown 0.5s ease;
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    header.scrolled {
+      background: rgba(30, 30, 47, 0.95);
+      padding: 10px 0;
+    }
+
+    nav {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+    }
+
+    nav .logo {
+      font-size: 1.2em;
+      font-weight: bold;
+      letter-spacing: 1px;
+      color: var(--accent);
+      animation: fadeIn 1s ease 0.2s both;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+
+    nav a {
+      color: var(--text);
+      font-weight: 500;
+      position: relative;
+      animation: fadeIn 1s ease 0.4s both;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* ======== SECTION ======== */
+    section {
+      padding: 100px 20px;
+      max-width: 1100px;
+      margin: auto;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ======== BERANDA ======== */
+    .beranda {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 40px;
+      min-height: 100vh;
+      overflow: hidden;
+      border-radius: 30px;
+      margin: 80px auto;
+      max-width: 1100px;
+      box-shadow: 0 0 25px rgba(108, 99, 255, 0.3);
+    }
+
+    /* Background galaksi */
+    .beranda::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+      z-index: 0;
+      animation: gradientShift 10s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%); }
+      50% { background: radial-gradient(ellipse at top, #1b2735 0%, #090a0f 100%); }
+    }
+
+    /* Efek bintang kecil */
+    .beranda::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 200%;
+      background: transparent url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+      animation: moveStars 100s linear infinite;
+      opacity: 0.6;
+      z-index: 0;
+    }
+
+    /* Animasi bintang pelan */
+    @keyframes moveStars {
+      from { transform: translate(0, 0); }
+      to { transform: translate(-50%, -50%); }
+    }
+
+    .beranda .intro {
+      flex: 1;
+      min-width: 280px;
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      animation: fadeInLeft 1s ease 0.6s both;
+    }
+
+    @keyframes fadeInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .beranda .intro h1 {
+      font-size: 2.2em;
+      color: var(--accent);
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px rgba(108, 99, 255, 0.6);
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px rgba(108, 99, 255, 0.6); }
+      to { text-shadow: 0 0 20px rgba(108, 99, 255, 0.9), 0 0 30px rgba(108, 99, 255, 0.6); }
+    }
+
+    .beranda p {
+      margin-top: 10px;
+      color: #ccc;
+      animation: typewriter 2s steps(40) 1s 1 normal both;
+      overflow: hidden;
+      border-right: 2px solid var(--accent);
+      white-space: nowrap;
+    }
+
+    @keyframes typewriter {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    .beranda img {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--accent);
+      box-shadow: 0 0 25px rgba(108, 99, 255, 0.7);
+      position: relative;
+      z-index: 1;
+      animation: fadeInRight 1s ease 0.8s both, float 3s ease-in-out infinite 1.8s;
+    }
+
+    @keyframes fadeInRight {
+      from {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* ======== TENTANG ======== */
+    .tentang {
+      text-align: center;
+      max-width: 800px;
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 40px;
+      margin: 30px auto 0 auto;
+      box-shadow: 0 0 25px rgba(108, 99, 255, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .tentang:hover {
+      box-shadow: 0 0 35px rgba(108, 99, 255, 0.5);
+      transform: translateY(-5px);
+    }
+
+    .tentang h2 {
+      animation: slideInUp 0.6s ease both;
+    }
+
+    .tentang p {
+      margin-top: 10px;
+      color: #d0d0d0;
+      animation: fadeIn 1s ease 0.3s both;
+    }
+
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* ======== CV SECTION ======== */
+    .cv {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 40px;
+      margin-top: 40px;
+      box-shadow: 0 0 20px rgba(108, 99, 255, 0.2);
+    }
+
+    .cv h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: var(--accent);
+      animation: slideInUp 0.6s ease both;
+    }
+
+    /* CV GRID */
+    .cv-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .cv-item {
+      background: var(--card-hover);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(108, 99, 255, 0.1);
+      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .cv-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .cv-item:hover {
+      background: #343458;
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 5px 20px rgba(108, 99, 255, 0.3);
+    }
+
+    .cv-item h3 {
+      color: var(--accent);
+      margin-bottom: 15px;
+      font-size: 1.3em;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .cv-item h3::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 2px;
+      background: var(--accent);
+      animation: expandWidth 0.5s ease 0.5s both;
+    }
+
+    @keyframes expandWidth {
+      from { width: 0; }
+      to { width: 50px; }
+    }
+
+    .cv-item p {
+      color: #ccc;
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+
+    /* ======== SKILL LIST ======== */
+    .skill-list {
+      list-style: none;
+      margin-top: 10px;
+      padding-left: 0;
+    }
+
+    .skill-list li {
+      background: #343458;
+      margin-bottom: 8px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      color: #ddd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+
+    .skill-list li.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .skill-list li:hover {
+      background: #3e3e5c;
+      transform: translateX(5px);
+    }
+
+    .skill-list strong {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* ======== PROYEK ======== */
+    #proyek {
+      text-align: center;
+      max-width: 800px;
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 40px;
+      margin: 100px auto;
+      box-shadow: 0 0 25px rgba(108, 99, 255, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    #proyek:hover {
+      box-shadow: 0 0 35px rgba(108, 99, 255, 0.5);
+      transform: translateY(-5px);
+    }
+
+    .proyek {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: var(--card-hover);
+      border-radius: 10px;
+      padding: 20px;
+      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateY(20px) scale(0.9);
+    }
+
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .card:hover {
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 10px 30px rgba(108, 99, 255, 0.4);
+      background: #343458;
+    }
+
+    .card h3 {
+      color: var(--accent);
+      margin-bottom: 10px;
+      transition: color 0.3s ease;
+    }
+
+    .card:hover h3 {
+      color: #8b85ff;
+    }
+
+    /* ======== KONTAK ======== */
+    .kontak {
+      text-align: center;
+      max-width: 800px;
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 40px;
+      margin: 100px auto;
+      box-shadow: 0 0 25px rgba(108, 99, 255, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .kontak:hover {
+      box-shadow: 0 0 35px rgba(108, 99, 255, 0.5);
+      transform: translateY(-5px);
+    }
+
+    .kontak p {
+      margin: 10px 0;
+      padding: 10px;
+      background: var(--card-hover);
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    .kontak p.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .kontak p:hover {
+      background: #343458;
+      transform: translateX(10px);
+    }
+
+    /* ======== FOOTER ======== */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #151525;
+      font-size: 0.9em;
+      color: #888;
+      margin-top: 40px;
+      animation: fadeIn 1s ease 1s both;
+    }
+
+    /* ======== RESPONSIVE ======== */
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+      }
+
+      .beranda {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .beranda img {
+        width: 250px;
+        height: 250px;
+      }
+
+      .cv-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loader"></div>
+  </div>
+
+  <!-- ======== HEADER ======== -->
+  <header>
+    <nav>
+      <div class="logo">CV NAYLA</div>
+      <ul>
+        <li><a href="#beranda">Beranda</a></li>
+        <li><a href="#tentang">Tentang</a></li>
+        <li><a href="#cv">CV</a></li>
+        <li><a href="#proyek">Proyek</a></li>
+        <li><a href="#kontak">Kontak</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ======== BERANDA ======== -->
+  <section id="beranda" class="beranda">
+    <div class="intro">
+      <h1>Halo, Saya <span style="color: var(--accent)">Nayla Febryani Koswara</span></h1>
+      <p>Pelajar jurusan Rekayasa Perangkat Lunak di SMKN 1 Kawali.</p>
+    </div>
+    <img src="asset/img/abcd.jpeg" alt="Foto Nayla">
+  </section>
+
+  <!-- ======== TENTANG SAYA ======== -->
+  <section id="tentang" class="tentang">
+    <h2>Tentang Saya</h2>
+    <p>
+      Saya Nayla Febryani Koswara, lahir di Ciamis pada tanggal 10 Februari 2008.
+Saya adalah individu yang memiliki minat besar dalam mengembangkan kemampuan di bidang Teknologi Informasi (IT). Melalui setiap pengalaman belajar, saya berusaha untuk terus berkembang, memperluas wawasan, dan membangun dasar yang kuat untuk masa depan di dunia digital. Saya dikenal sebagai pribadi yang disiplin, mudah beradaptasi, mampu mengelola waktu dengan baik, serta dapat bekerja sama dalam tim untuk mencapai tujuan bersama.
+    </p>
+  </section>
+
+  <!-- ======== CV ======== -->
+  <section id="cv" class="cv">
+    <h2>Curriculum Vitae</h2>
+
+    <!-- Baris 1: Pendidikan & Keterampilan -->
+    <div class="cv-grid">
+      <div class="cv-item">
+        <h3>Pendidikan</h3>
+        <p><strong>SMKN 1 Kawali</strong> — Rekayasa Perangkat Lunak (2023 - 2026)</p>
+        <p><strong>SMPN 2 Panjalu</strong> (2020 - 2023)</p>
+      </div>
+
+      <div class="cv-item">
+        <h3>Kemampuan</h3>
+        <ul class="skill-list">
+          <li><strong>HTML</strong> — Menengah</li>
+          <li><strong>CSS</strong> — Menengah</li>
+          <li><strong>PHP</strong> — Pemula</li>
+          <li><strong>Laravel</strong> — Pemula</li>
+          <li><strong>Figma</strong> — Menengah</li>
+          <li><strong>Canva</strong> — Mahir</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Baris 2: Pengalaman & Organisasi -->
+    <div class="cv-grid">
+      <div class="cv-item">
+        <h3>Pengalaman</h3>
+        <p>Magang PKL di PT. Inovindo Digital Media</p>
+        <p>Pelatihan Landing Page bersama tim inovindo</p>
+        <p>Mengikuti Uji Sertifikasi Kompetensi web Rental Motor</p>
+      </div>
+
+      <div class="cv-item">
+        <h3>Organisasi</h3>
+        <p><strong>OSIS SMKN 1 Kawali</strong> — Ketua Sekbid 9 TIK (Pembinaan Informasi dan Teknologi).</p>
+        <p><strong>PMR WIRA SMKN 1 KAWALI</strong> — Anggota PMR WIRA SMKN 1 KAWALI.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== PROYEK ======== -->
+  <section id="proyek">
+    <h2>Proyek Saya</h2>
+    <div class="proyek">
+      <div class="card">
+        <h3>Website Portfolio</h3>
+        <p>Desain web pribadi menggunakan HTML dan CSS dengan tema elegan dan responsif.</p>
+      </div>
+      <div class="card">
+        <h3>Uji Sertifikasi Kompetensi</h3>
+        <p>Projek Laravel sederhana untuk sistem Rental Motor.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== KONTAK ======== -->
+  <section id="kontak" class="kontak">
+    <h2>Kontak</h2>
+    <p>Instagram : swftznnay</p>
+    <p>Email : naylaf018@gmail.com</p>
+    <p>Telepon : 081313606986</p>
+  </section>
+
+  <!-- ======== FOOTER ======== -->
+  <footer>
+    <p>© 2025 Nayla Febryani Koswara</p>
+  </footer>
+
+  <script>
+    // Loading screen
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loadingScreen').classList.add('hide');
+      }, 1500);
+    });
+
+    // Smooth scrolling untuk navigasi
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Efek scroll pada header
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 100) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Intersection Observer untuk animasi scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          
+          // Animasi skill list items
+          if (entry.target.classList.contains('cv-item')) {
+            const skillItems = entry.target.querySelectorAll('.skill-list li');
+            skillItems.forEach((item, index) => {
+              setTimeout(() => {
+                item.classList.add('visible');
+              }, index * 100);
+            });
+          }
+          
+          // Animasi kontak items
+          if (entry.target.classList.contains('kontak')) {
+            const kontakItems = entry.target.querySelectorAll('p');
+            kontakItems.forEach((item, index) => {
+              setTimeout(() => {
+                item.classList.add('visible');
+              }, index * 100);
+            });
+          }
+        }
+      });
+    }, observerOptions);
+
+    // Observe semua sections
+    document.querySelectorAll('section').forEach(section => {
+      observer.observe(section);
+    });
+
+    // Observe cv items
+    document.querySelectorAll('.cv-item').forEach(item => {
+      observer.observe(item);
+    });
+
+    // Observe cards
+    document.querySelectorAll('.card').forEach(card => {
+      observer.observe(card);
+    });
+  </script>
+</body>
+</html>
